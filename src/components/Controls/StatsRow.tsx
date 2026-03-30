@@ -156,7 +156,7 @@ function renderModeStats(
     case 'alignment':
       return <AlignmentStats stats={stats} maxParty={maxParty} />;
     case 'map':
-      return <MapStats stats={stats} maxParty={maxParty} />;
+      return <MapStats stats={stats} />;
   }
 }
 
@@ -431,7 +431,7 @@ function AlignmentStats({ stats, maxParty }: { stats: Stats; maxParty: number })
   );
 }
 
-function MapStats({ stats, maxParty }: { stats: Stats; maxParty: number }) {
+function MapStats({ stats }: { stats: Stats }) {
   return (
     <>
       <StatBlock label="Coverage">

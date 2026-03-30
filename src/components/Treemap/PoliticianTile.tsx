@@ -1,7 +1,7 @@
 import { useAppContext } from '../../context/AppContext';
 import { getTileColor } from '../../utils/colors';
 import { formatDollars } from '../../utils/format';
-import { industryMap } from '../../data/industries';
+
 import type { LayoutNode } from '../../hooks/useTreemapLayout';
 import type { ColorMode, Politician } from '../../data/types';
 
@@ -77,7 +77,6 @@ export function PoliticianTile({ node, maxDonation }: Props) {
     maxDonation
   );
 
-  const pad = 5;
   const clipId = `clip-${node.politicianId}-${node.industryId}`;
   const fontSize = Math.min(13, Math.max(9, Math.min(w / 10, h / 3)));
   const showName = w > 30 && h > 16;
