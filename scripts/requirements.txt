@@ -1,0 +1,6 @@
+pandas
+thefuzz[speedup]
+anthropic
+requests
+tqdm
+python-dotenv
