@@ -70,8 +70,8 @@ export function Treemap() {
         <svg
           width={dimensions.width}
           height={dimensions.height}
-          className="rounded-lg"
-          style={{ background: '#0a0a12' }}
+          className="rounded-2xl"
+          style={{ background: '#FBF8F1', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
           onMouseMove={onMouseMove}
           onMouseLeave={onMouseLeave}
         >
@@ -83,13 +83,13 @@ export function Treemap() {
         {/* Show more / less controls */}
         {!isSearching && (
           <div className="flex items-center justify-center gap-3 mt-3">
-            <span className="text-[11px] text-[#555]">
+            <span className="text-[11px] text-[#86868B]">
               Showing top {Math.min(displayLimit, sortedPoliticians.length)} of {sortedPoliticians.length} politicians
             </span>
             {canShowMore && (
               <button
                 onClick={() => setDisplayLimit((n) => Math.min(n + 20, sortedPoliticians.length))}
-                className="px-3 py-1 text-xs rounded-md border border-white/10 bg-transparent text-[#888894] hover:bg-white/5 hover:text-[#bbb] cursor-pointer transition-colors"
+                className="px-3 py-1 text-xs rounded-full border border-black/[.08] bg-white text-[#86868B] hover:bg-black/[.04] hover:text-[#1D1D1F] cursor-pointer transition-colors"
               >
                 Show more
               </button>
@@ -97,7 +97,7 @@ export function Treemap() {
             {displayLimit > DEFAULT_LIMIT && (
               <button
                 onClick={() => setDisplayLimit(DEFAULT_LIMIT)}
-                className="px-3 py-1 text-xs rounded-md border border-white/10 bg-transparent text-[#888894] hover:bg-white/5 hover:text-[#bbb] cursor-pointer transition-colors"
+                className="px-3 py-1 text-xs rounded-full border border-black/[.08] bg-white text-[#86868B] hover:bg-black/[.04] hover:text-[#1D1D1F] cursor-pointer transition-colors"
               >
                 Reset
               </button>

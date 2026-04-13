@@ -15,7 +15,7 @@ export function IndustryGroup({ group, maxDonation }: Props) {
   if (w < 1 || h < 1) return null;
 
   const isFlat = !group.industryId;
-  const color = isFlat ? '#555' : (industryMap.get(group.industryId)?.color ?? '#555');
+  const color = isFlat ? '#B5B5BA' : (industryMap.get(group.industryId)?.color ?? '#B5B5BA');
 
   const groupClipId = `group-clip-${group.industryId}`;
 
@@ -34,7 +34,7 @@ export function IndustryGroup({ group, maxDonation }: Props) {
             width={w}
             height={h}
             fill={color}
-            opacity={0.12}
+            opacity={0.08}
             rx={0}
           />
           {w > 60 && (

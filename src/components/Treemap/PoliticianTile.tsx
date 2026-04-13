@@ -100,9 +100,9 @@ export function PoliticianTile({ node, maxDonation }: Props) {
         width={w}
         height={h}
         fill={fill}
-        opacity={isHovered ? 0.8 : 0.5}
-        stroke={isHovered ? '#fff' : 'none'}
-        strokeWidth={isHovered ? 2 : 0}
+        opacity={isHovered ? 1 : 0.88}
+        stroke={isHovered ? '#1D1D1F' : 'rgba(255,255,255,0.6)'}
+        strokeWidth={isHovered ? 1.5 : 0.5}
         style={{ transition: 'opacity 150ms, stroke 150ms' }}
       />
       <g clipPath={`url(#${clipId})`} style={{ pointerEvents: 'none' }}>
