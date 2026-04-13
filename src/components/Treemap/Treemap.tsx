@@ -71,7 +71,7 @@ export function Treemap() {
           width={dimensions.width}
           height={dimensions.height}
           className="rounded-2xl"
-          style={{ background: '#FBF8F1', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
+          style={{ background: 'transparent' }}
           onMouseMove={onMouseMove}
           onMouseLeave={onMouseLeave}
         >
