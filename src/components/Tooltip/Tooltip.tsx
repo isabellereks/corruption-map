@@ -21,13 +21,17 @@ export function Tooltip({ x, y, politician }: Props) {
 
   return createPortal(
     <div
-      className="fixed z-50 bg-[#12121a] border border-white/12 rounded-lg px-4 py-3 pointer-events-none"
+      className="fixed z-50 rounded-2xl px-4 py-3 pointer-events-none"
       style={{
         left: x,
         top: y,
         width: 300,
         transition: 'opacity 0.12s',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
+        background: 'rgba(255,255,255,0.95)',
+        border: '1px solid rgba(0,0,0,0.06)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        boxShadow: '0 12px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.04)',
       }}
     >
       <div className="flex items-center gap-2 mb-1">
@@ -35,30 +39,30 @@ export function Tooltip({ x, y, politician }: Props) {
           className="w-2.5 h-2.5 rounded-full"
           style={{ backgroundColor: partyColors[politician.party] }}
         />
-        <span className="text-sm font-semibold text-white">{politician.name}</span>
+        <span className="text-sm font-semibold text-[#1D1D1F]">{politician.name}</span>
       </div>
-      <div className="text-xs text-[#888894] mb-2">
+      <div className="text-xs text-[#86868B] mb-2">
         {politician.party === 'D' ? 'Democrat' : politician.party === 'R' ? 'Republican' : 'Independent'} · {politician.state} · {politician.chamber}
       </div>
 
       {colorMode === 'industry' && (
         <>
-          <div className="text-xs text-[#bbb] mb-1">
+          <div className="text-xs text-[#1D1D1F] mb-1">
             Received: <span className="text-[#D94A4A] font-bold">{formatDollars(totalDonations)}</span>
-            <span className="text-[#888894]"> from lobbyists</span>
+            <span className="text-[#86868B]"> from lobbyists</span>
           </div>
-          <div className="text-[10px] text-[#555] uppercase tracking-wide mt-2 mb-1">Who's Paying</div>
+          <div className="text-[11px] text-[#86868B] tracking-tight font-medium mt-2 mb-1">Who's Paying</div>
           {politician.donations
             .slice()
             .sort((a, b) => b.amount - a.amount)
             .map((d) => (
               <div key={d.industryId} className="flex items-center justify-between text-xs mb-0.5">
-                <span className="text-[#888894]">{industryMap.get(d.industryId)?.name}</span>
-                <span className="text-[#e0e0e8] font-medium tabular-nums">{formatDollars(d.amount)}</span>
+                <span className="text-[#86868B]">{industryMap.get(d.industryId)?.name}</span>
+                <span className="text-[#1D1D1F] font-medium tabular-nums">{formatDollars(d.amount)}</span>
               </div>
             ))}
-          <div className="text-xs text-[#bbb] mt-2">
-            Top donor: <span className="text-[#e0e0e8] font-medium">{topDonation.topDonor}</span>
+          <div className="text-xs text-[#1D1D1F] mt-2">
+            Top donor: <span className="text-[#1D1D1F] font-medium">{topDonation.topDonor}</span>
           </div>
         </>
       )}
@@ -67,20 +71,20 @@ export function Tooltip({ x, y, politician }: Props) {
         politician.netWorthStart > 0 ? (
           <>
             <div className="text-xs mb-1">
-              <span className="text-[#888894]">Entered office worth </span>
-              <span className="text-[#e0e0e8] font-medium">{formatDollars(politician.netWorthStart)}</span>
+              <span className="text-[#86868B]">Entered office worth </span>
+              <span className="text-[#1D1D1F] font-medium">{formatDollars(politician.netWorthStart)}</span>
             </div>
             <div className="text-xs mb-1">
-              <span className="text-[#888894]">Now worth </span>
+              <span className="text-[#86868B]">Now worth </span>
               <span className="text-[#D94A4A] font-bold text-sm">{formatDollars(politician.netWorthCurrent)}</span>
             </div>
-            <div className="text-xs text-[#bbb] mb-1">
+            <div className="text-xs text-[#1D1D1F] mb-1">
               <span className="text-[#DAA520] font-bold">
                 {(politician.netWorthCurrent / politician.netWorthStart).toFixed(0)}x richer
               </span>
-              <span className="text-[#888894]"> in {politician.yearsInOffice} years</span>
+              <span className="text-[#86868B]"> in {politician.yearsInOffice} years</span>
             </div>
-            <div className="text-xs text-[#888894] mb-1">
+            <div className="text-xs text-[#86868B] mb-1">
               Salary: {formatDollars(politician.salary)}/yr
             </div>
             {(() => {
@@ -97,18 +101,18 @@ export function Tooltip({ x, y, politician }: Props) {
         ) : (
           <>
             <div className="text-xs mb-1">
-              <span className="text-[#888894]">Total PAC donations: </span>
+              <span className="text-[#86868B]">Total PAC donations: </span>
               <span className="text-[#D94A4A] font-bold">{formatDollars(totalDonations)}</span>
             </div>
-            <div className="text-[10px] text-[#555] uppercase tracking-wide mt-2 mb-1">Top Industries</div>
+            <div className="text-[11px] text-[#86868B] tracking-tight font-medium mt-2 mb-1">Top Industries</div>
             {politician.donations
               .slice()
               .sort((a, b) => b.amount - a.amount)
               .slice(0, 3)
               .map((d) => (
                 <div key={d.industryId} className="flex items-center justify-between text-xs mb-0.5">
-                  <span className="text-[#888894]">{industryMap.get(d.industryId)?.name ?? d.industryId}</span>
-                  <span className="text-[#e0e0e8] font-medium tabular-nums">{formatDollars(d.amount)}</span>
+                  <span className="text-[#86868B]">{industryMap.get(d.industryId)?.name ?? d.industryId}</span>
+                  <span className="text-[#1D1D1F] font-medium tabular-nums">{formatDollars(d.amount)}</span>
                 </div>
               ))}
           </>
@@ -119,27 +123,27 @@ export function Tooltip({ x, y, politician }: Props) {
         politician.voteAlignmentScore > 0 ? (
           <>
             <div className="text-xs mb-1">
-              <span className="text-[#888894]">Votes with donors: </span>
+              <span className="text-[#86868B]">Votes with donors: </span>
               <span className="font-bold text-base" style={{
                 color: politician.voteAlignmentScore > 70 ? '#D94A4A' : politician.voteAlignmentScore > 50 ? '#DAA520' : '#2E8B57'
               }}>{politician.voteAlignmentScore}%</span>
-              <span className="text-[#888894]"> of the time</span>
+              <span className="text-[#86868B]"> of the time</span>
             </div>
-            <div className="text-xs text-[#bbb] mb-1">
-              Received: <span className="text-[#e0e0e8] font-medium">{formatDollars(totalDonations)}</span>
+            <div className="text-xs text-[#1D1D1F] mb-1">
+              Received: <span className="text-[#1D1D1F] font-medium">{formatDollars(totalDonations)}</span>
             </div>
             {politician.suspiciousVotes.length > 0 ? (
               <>
-                <div className="text-[10px] text-[#D94A4A] uppercase tracking-wide mt-2 mb-1 font-semibold">
+                <div className="text-[11px] text-[#D94A4A] tracking-tight mt-2 mb-1 font-medium">
                   Exposed Votes ({politician.suspiciousVotes.length})
                 </div>
                 {politician.suspiciousVotes.slice(0, 3).map((v) => (
                   <div key={v.bill} className="text-xs mb-0.5">
                     <span className="text-[#D94A4A]">{v.bill}</span>
                     {v.howTheyVoted && (
-                      <span className="text-[#666]"> ({v.howTheyVoted})</span>
+                      <span className="text-[#A8A8AD]"> ({v.howTheyVoted})</span>
                     )}
-                    <span className="text-[#888894]"> {v.reason || v.description}</span>
+                    <span className="text-[#86868B]"> {v.reason || v.description}</span>
                   </div>
                 ))}
               </>
@@ -149,10 +153,10 @@ export function Tooltip({ x, y, politician }: Props) {
           </>
         ) : (
           <>
-            <div className="text-xs text-[#bbb] mb-1">
+            <div className="text-xs text-[#1D1D1F] mb-1">
               Total PAC donations: <span className="text-[#D94A4A] font-bold">{formatDollars(totalDonations)}</span>
             </div>
-            <div className="text-[10px] text-[#555] uppercase tracking-wide mt-2 mb-1">Donation Concentration</div>
+            <div className="text-[11px] text-[#86868B] tracking-tight font-medium mt-2 mb-1">Donation Concentration</div>
             {politician.donations
               .slice()
               .sort((a, b) => b.amount - a.amount)
@@ -161,12 +165,12 @@ export function Tooltip({ x, y, politician }: Props) {
                 const pct = Math.round((d.amount / totalDonations) * 100);
                 return (
                   <div key={d.industryId} className="flex items-center justify-between text-xs mb-0.5">
-                    <span className="text-[#888894]">{industryMap.get(d.industryId)?.name ?? d.industryId}</span>
-                    <span className="text-[#e0e0e8] font-medium tabular-nums">{pct}%</span>
+                    <span className="text-[#86868B]">{industryMap.get(d.industryId)?.name ?? d.industryId}</span>
+                    <span className="text-[#1D1D1F] font-medium tabular-nums">{pct}%</span>
                   </div>
                 );
               })}
-            <div className="text-xs text-[#888894] mt-2">Vote alignment data not available</div>
+            <div className="text-xs text-[#86868B] mt-2">Vote alignment data not available</div>
           </>
         )
       )}
