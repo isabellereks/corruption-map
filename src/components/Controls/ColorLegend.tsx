@@ -8,7 +8,7 @@ export function ColorLegend() {
     return (
       <div className="flex gap-3 items-center">
         {(['D', 'R', 'I'] as const).map((p) => (
-          <div key={p} className="flex items-center gap-1 text-[10px] text-[#888894]">
+          <div key={p} className="flex items-center gap-1.5 text-[10px] text-[#86868B]">
             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: partyColors[p] }} />
             {p === 'D' ? 'Democrat' : p === 'R' ? 'Republican' : 'Independent'}
           </div>
@@ -19,7 +19,7 @@ export function ColorLegend() {
 
   if (colorMode === 'amount') {
     return (
-      <div className="flex items-center gap-1.5 text-[10px] text-[#888894]">
+      <div className="flex items-center gap-1.5 text-[10px] text-[#86868B]">
         <span>Low $</span>
         <div
           className="w-20 h-2.5 rounded-sm"
@@ -36,19 +36,19 @@ export function ColorLegend() {
     return (
       <div className="flex gap-3 items-center">
         {(['D', 'R', 'I'] as const).map((p) => (
-          <div key={p} className="flex items-center gap-1 text-[10px] text-[#888894]">
+          <div key={p} className="flex items-center gap-1.5 text-[10px] text-[#86868B]">
             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: partyColors[p] }} />
             {p === 'D' ? 'Democrat' : p === 'R' ? 'Republican' : 'Independent'}
           </div>
         ))}
-        <span className="text-[10px] text-[#555] ml-2">opacity = donation volume</span>
+        <span className="text-[10px] text-[#B5B5BA] ml-2">opacity = donation volume</span>
       </div>
     );
   }
 
   // alignment
   return (
-    <div className="flex items-center gap-1.5 text-[10px] text-[#888894]">
+    <div className="flex items-center gap-1.5 text-[10px] text-[#86868B]">
       <span>Independent</span>
       <div
         className="w-20 h-2.5 rounded-sm"

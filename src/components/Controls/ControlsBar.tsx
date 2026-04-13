@@ -6,13 +6,10 @@ import { ColorLegend } from './ColorLegend';
 
 export function ControlsBar() {
   return (
-    <div className="px-7 py-4">
+    <div className="px-8 py-4">
       {/* Top row */}
-      <div className="flex items-center justify-between gap-3 mb-2">
+      <div className="flex items-center justify-between gap-3 mb-3">
         <div className="flex items-center gap-2.5 flex-wrap">
-          <span className="text-[11px] font-semibold tracking-[0.08em] text-[#888894] uppercase">
-            Layer
-          </span>
           <ColorModeToggle />
         </div>
         <div className="flex items-center gap-2 shrink-0">
@@ -20,7 +17,7 @@ export function ControlsBar() {
           <SearchFilter />
         </div>
       </div>
-      <div className="mb-3.5">
+      <div className="mb-4">
         <ColorLegend />
       </div>
       {/* Stats row */}

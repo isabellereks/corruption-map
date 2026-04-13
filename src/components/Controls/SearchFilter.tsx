@@ -21,7 +21,7 @@ export function SearchFilter() {
           onChange={(e) => setSearchQuery(e.target.value)}
           onBlur={() => { if (!searchQuery) setOpen(false); }}
           onKeyDown={(e) => { if (e.key === 'Escape') { setSearchQuery(''); setOpen(false); } }}
-          className="bg-transparent border border-white/10 rounded px-3 py-1.5 text-sm text-[#e0e0e8] placeholder-[#555] w-52 outline-none focus:border-white/20 transition-colors"
+          className="bg-white border border-black/[.08] rounded-full px-3.5 py-1.5 text-[13px] text-[#1D1D1F] placeholder-[#B5B5BA] w-52 outline-none focus:border-black/20 transition-colors"
         />
       )}
       <button
@@ -32,10 +32,10 @@ export function SearchFilter() {
             setOpen(!open);
           }
         }}
-        className="p-1.5 rounded hover:bg-[#2a2a40] transition-colors cursor-pointer"
+        className="w-7 h-7 flex items-center justify-center rounded-full bg-black/[.04] hover:bg-black/[.08] transition-colors cursor-pointer"
         aria-label="Search"
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888894" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           {open && searchQuery ? (
             <>
               <line x1="18" y1="6" x2="6" y2="18" />
