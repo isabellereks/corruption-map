@@ -128,10 +128,10 @@ export function StatsRow() {
   const maxParty = Math.max(stats.byParty.D, stats.byParty.R, stats.byParty.I);
 
   return (
-    <div className="flex flex-wrap items-start text-[#e0e0e8] gap-y-[20px] gap-x-[28px]">
+    <div className="flex flex-wrap items-start text-[#1D1D1F] gap-y-[20px] gap-x-[28px]">
       <StatBlock label="Politicians">
         <div className="text-[32px] font-bold leading-none tracking-[-0.03em]">{stats.total}</div>
-        <div className="text-[11px] text-[#888894]">
+        <div className="text-[11px] text-[#86868B]">
           {stats.byChamber.Senate} senators · {stats.byChamber.House} reps
         </div>
       </StatBlock>
@@ -189,7 +189,7 @@ function IndustryStats({ stats, maxParty }: { stats: Stats; maxParty: number }) 
         <div className="text-[32px] font-bold leading-none tracking-[-0.03em] text-[#D94A4A]">
           {formatDollars(stats.totalDonations)}
         </div>
-        <div className="text-[11px] text-[#888894]">from PACs</div>
+        <div className="text-[11px] text-[#86868B]">from PACs</div>
       </StatBlock>
 
       <Divider />
@@ -209,8 +209,8 @@ function IndustryStats({ stats, maxParty }: { stats: Stats; maxParty: number }) 
                   backgroundColor: ind.color,
                 }}
               />
-              <span className="text-[#888894] whitespace-nowrap">{ind.name}</span>
-              <span className="text-[#e0e0e8] font-semibold tabular-nums whitespace-nowrap ml-1">{formatDollars(ind.total)}</span>
+              <span className="text-[#86868B] whitespace-nowrap">{ind.name}</span>
+              <span className="text-[#1D1D1F] font-semibold tabular-nums whitespace-nowrap ml-1">{formatDollars(ind.total)}</span>
             </div>
           ))}
         </div>
@@ -225,7 +225,7 @@ function IndustryStats({ stats, maxParty }: { stats: Stats; maxParty: number }) 
             }}>
               {stats.avgAlignment.toFixed(0)}%
             </div>
-            <div className="text-[11px] text-[#888894]">avg vote alignment</div>
+            <div className="text-[11px] text-[#86868B]">avg vote alignment</div>
           </StatBlock>
         </>
       )}
@@ -237,7 +237,7 @@ function IndustryStats({ stats, maxParty }: { stats: Stats; maxParty: number }) 
             <div className="text-[32px] font-bold leading-none tracking-[-0.03em] text-[#D94A4A]">
               {stats.suspiciousCount}
             </div>
-            <div className="text-[11px] text-[#888894]">growth &gt; 3x salary</div>
+            <div className="text-[11px] text-[#86868B]">growth &gt; 3x salary</div>
           </StatBlock>
         </>
       )}
@@ -252,7 +252,7 @@ function AmountStats({ stats }: { stats: Stats }) {
         <div className="text-[32px] font-bold leading-none tracking-[-0.03em] text-[#D94A4A]">
           {formatDollars(stats.totalDonations)}
         </div>
-        <div className="text-[11px] text-[#888894]">from PACs</div>
+        <div className="text-[11px] text-[#86868B]">from PACs</div>
       </StatBlock>
 
       {stats.hasWealthData && (
@@ -263,7 +263,7 @@ function AmountStats({ stats }: { stats: Stats }) {
             <div className="text-[32px] font-bold leading-none tracking-[-0.03em] text-[#D94A4A]">
               {formatDollars(stats.totalNetWorthGains)}
             </div>
-            <div className="text-[11px] text-[#888894]">while in office</div>
+            <div className="text-[11px] text-[#86868B]">while in office</div>
           </StatBlock>
 
           <Divider />
@@ -272,7 +272,7 @@ function AmountStats({ stats }: { stats: Stats }) {
             <div className="text-[32px] font-bold leading-none tracking-[-0.03em] text-[#DAA520]">
               {stats.avgGrowthMultiple.toFixed(0)}x
             </div>
-            <div className="text-[11px] text-[#888894]">net worth multiple</div>
+            <div className="text-[11px] text-[#86868B]">net worth multiple</div>
           </StatBlock>
 
           <Divider />
@@ -281,7 +281,7 @@ function AmountStats({ stats }: { stats: Stats }) {
             <div className="text-[20px] font-bold leading-none tracking-[-0.03em] text-[#D94A4A]">
               +{formatDollars(stats.biggestGainer.netWorthCurrent - stats.biggestGainer.netWorthStart)}
             </div>
-            <div className="text-[10px] text-[#888894] mt-1 whitespace-nowrap">{stats.biggestGainer.name}</div>
+            <div className="text-[10px] text-[#86868B] mt-1 whitespace-nowrap">{stats.biggestGainer.name}</div>
           </StatBlock>
 
           <Divider />
@@ -290,7 +290,7 @@ function AmountStats({ stats }: { stats: Stats }) {
             <div className="text-[32px] font-bold leading-none tracking-[-0.03em] text-[#D94A4A]">
               {stats.suspiciousCount}
             </div>
-            <div className="text-[11px] text-[#888894]">growth &gt; 3x salary</div>
+            <div className="text-[11px] text-[#86868B]">growth &gt; 3x salary</div>
           </StatBlock>
         </>
       )}
@@ -309,7 +309,7 @@ function AlignmentStats({ stats, maxParty }: { stats: Stats; maxParty: number })
           <div className="text-[32px] font-bold leading-none tracking-[-0.03em] text-[#D94A4A]">
             {formatDollars(stats.totalDonations)}
           </div>
-          <div className="text-[11px] text-[#888894]">from PACs</div>
+          <div className="text-[11px] text-[#86868B]">from PACs</div>
         </StatBlock>
 
         <Divider />
@@ -319,7 +319,7 @@ function AlignmentStats({ stats, maxParty }: { stats: Stats; maxParty: number })
         <Divider />
 
         <StatBlock label="Vote Data">
-          <div className="text-[14px] text-[#888894]">Not yet available</div>
+          <div className="text-[14px] text-[#86868B]">Not yet available</div>
         </StatBlock>
       </>
     );
@@ -333,7 +333,7 @@ function AlignmentStats({ stats, maxParty }: { stats: Stats; maxParty: number })
         }}>
           {stats.avgAlignment.toFixed(0)}%
         </div>
-        <div className="text-[11px] text-[#888894]">avg vote alignment</div>
+        <div className="text-[11px] text-[#86868B]">avg vote alignment</div>
       </StatBlock>
 
       <Divider />
@@ -343,8 +343,8 @@ function AlignmentStats({ stats, maxParty }: { stats: Stats; maxParty: number })
           {stats.tiers.map((t) => (
             <div key={t.label} className="flex items-center gap-2 text-[11px]">
               <div className="w-2 h-2 rounded-sm shrink-0" style={{ backgroundColor: t.color }} />
-              <span className="text-[#888894] whitespace-nowrap">{t.label}</span>
-              <span className="text-[#e0e0e8] font-semibold tabular-nums ml-1">{t.count}</span>
+              <span className="text-[#86868B] whitespace-nowrap">{t.label}</span>
+              <span className="text-[#1D1D1F] font-semibold tabular-nums ml-1">{t.count}</span>
             </div>
           ))}
         </div>
@@ -360,8 +360,8 @@ function AlignmentStats({ stats, maxParty }: { stats: Stats; maxParty: number })
           <div className="text-[20px] font-bold leading-none tracking-[-0.03em] text-[#D94A4A]">
             {stats.mostAligned.voteAlignmentScore}%
           </div>
-          <div className="text-[10px] text-[#888894] mt-1 whitespace-nowrap">
-            {stats.mostAligned.name} <span className="text-[#555]">· click to see all</span>
+          <div className="text-[10px] text-[#86868B] mt-1 whitespace-nowrap">
+            {stats.mostAligned.name} <span className="text-[#B5B5BA]">· click to see all</span>
           </div>
         </button>
       </StatBlock>
@@ -369,25 +369,25 @@ function AlignmentStats({ stats, maxParty }: { stats: Stats; maxParty: number })
       {showHighAligned && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
+          style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(16px)' }}
           onClick={() => setShowHighAligned(false)}
         >
           <div
-            className="bg-[#12121a] border border-white/10 rounded-xl p-5 w-[420px] max-w-[90vw] max-h-[70vh] overflow-hidden flex flex-col"
+            className="bg-white border border-black/[.08] shadow-[0_12px_40px_rgba(0,0,0,0.12),0_2px_8px_rgba(0,0,0,0.04)] rounded-xl p-5 w-[420px] max-w-[90vw] max-h-[70vh] overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-4">
               <div>
-                <div className="text-sm font-semibold text-[#e0e0e8]">
+                <div className="text-sm font-semibold text-[#1D1D1F]">
                   Most Aligned with Donors
                 </div>
-                <div className="text-[11px] text-[#888894]">
+                <div className="text-[11px] text-[#86868B]">
                   {stats.highAligned.length} politicians with 75%+ donor alignment
                 </div>
               </div>
               <button
                 onClick={() => setShowHighAligned(false)}
-                className="text-[#888894] hover:text-[#e0e0e8] text-xl cursor-pointer bg-transparent border-none p-1"
+                className="text-[#86868B] hover:text-[#1D1D1F] text-xl cursor-pointer bg-transparent border-none p-1"
               >
                 &times;
               </button>
@@ -397,15 +397,15 @@ function AlignmentStats({ stats, maxParty }: { stats: Stats; maxParty: number })
                 <button
                   key={p.id}
                   onClick={() => { setSelectedPoliticianId(p.id); setShowHighAligned(false); }}
-                  className="w-full text-left bg-transparent hover:bg-white/5 border-none px-3 py-2 cursor-pointer rounded-lg flex items-center justify-between gap-3 transition-colors"
+                  className="w-full text-left bg-transparent hover:bg-black/[.04] border-none px-3 py-2 cursor-pointer rounded-lg flex items-center justify-between gap-3 transition-colors"
                 >
                   <div className="flex items-center gap-2 min-w-0">
                     <div
                       className="w-2.5 h-2.5 rounded-full shrink-0"
                       style={{ backgroundColor: p.party === 'R' ? '#D94A4A' : p.party === 'D' ? '#4A90D9' : '#9B59B6' }}
                     />
-                    <span className="text-[13px] text-[#e0e0e8] font-medium truncate">{p.name}</span>
-                    <span className="text-[11px] text-[#555] shrink-0">{p.party}-{p.state}</span>
+                    <span className="text-[13px] text-[#1D1D1F] font-medium truncate">{p.name}</span>
+                    <span className="text-[11px] text-[#B5B5BA] shrink-0">{p.party}-{p.state}</span>
                   </div>
                   <span className="text-[13px] font-bold text-[#D94A4A] tabular-nums shrink-0">{p.voteAlignmentScore}%</span>
                 </button>
@@ -421,7 +421,7 @@ function AlignmentStats({ stats, maxParty }: { stats: Stats; maxParty: number })
         <div className="text-[32px] font-bold leading-none tracking-[-0.03em] text-[#D94A4A]">
           {stats.totalSuspiciousVotes}
         </div>
-        <div className="text-[11px] text-[#888894]">total</div>
+        <div className="text-[11px] text-[#86868B]">total</div>
       </StatBlock>
 
       <Divider />
@@ -436,7 +436,7 @@ function MapStats({ stats }: { stats: Stats }) {
     <>
       <StatBlock label="Coverage">
         <div className="text-[32px] font-bold leading-none tracking-[-0.03em]">{stats.statesRepresented}</div>
-        <div className="text-[11px] text-[#888894]">states + territories</div>
+        <div className="text-[11px] text-[#86868B]">states + territories</div>
       </StatBlock>
 
       <Divider />
@@ -445,7 +445,7 @@ function MapStats({ stats }: { stats: Stats }) {
         <div className="text-[32px] font-bold leading-none tracking-[-0.03em] text-[#D94A4A]">
           {formatDollars(stats.totalDonations)}
         </div>
-        <div className="text-[11px] text-[#888894]">from lobbyists</div>
+        <div className="text-[11px] text-[#86868B]">from lobbyists</div>
       </StatBlock>
 
       <Divider />
@@ -457,7 +457,7 @@ function MapStats({ stats }: { stats: Stats }) {
           const repPct = Math.round((stats.byParty.R / total) * 100);
           const lean = demPct > repPct ? 'D' : repPct > demPct ? 'R' : 'Even';
           const leanPct = lean === 'D' ? demPct : lean === 'R' ? repPct : 50;
-          const leanColor = lean === 'D' ? '#4A90D9' : lean === 'R' ? '#D94A4A' : '#888894';
+          const leanColor = lean === 'D' ? '#4A90D9' : lean === 'R' ? '#D94A4A' : '#86868B';
           return (
             <>
               <div className="text-[32px] font-bold leading-none tracking-[-0.03em]" style={{ color: leanColor }}>
@@ -468,7 +468,7 @@ function MapStats({ stats }: { stats: Stats }) {
                   <div className="h-full bg-[#4A90D9]" style={{ width: `${demPct}%` }} />
                   <div className="h-full bg-[#D94A4A]" style={{ width: `${repPct}%` }} />
                 </div>
-                <span className="text-[10px] text-[#888894]">{demPct}% D · {repPct}% R</span>
+                <span className="text-[10px] text-[#86868B]">{demPct}% D · {repPct}% R</span>
               </div>
             </>
           );
@@ -481,7 +481,7 @@ function MapStats({ stats }: { stats: Stats }) {
         <div className="text-[20px] font-bold leading-none tracking-[-0.03em] text-[#D94A4A]">
           {formatDollars(stats.topLobbyState.total)}
         </div>
-        <div className="text-[10px] text-[#888894] mt-1">{stats.topLobbyState.state}</div>
+        <div className="text-[10px] text-[#86868B] mt-1">{stats.topLobbyState.state}</div>
       </StatBlock>
     </>
   );
@@ -502,7 +502,7 @@ function ByPartyBlock({ stats, maxParty }: { stats: Stats; maxParty: number }) {
                 backgroundColor: partyColors[p],
               }}
             />
-            <span className="text-[9px] text-[#888894] leading-none tabular-nums">{stats.byParty[p]}</span>
+            <span className="text-[9px] text-[#86868B] leading-none tabular-nums">{stats.byParty[p]}</span>
           </div>
         ))}
       </div>
@@ -513,7 +513,7 @@ function ByPartyBlock({ stats, maxParty }: { stats: Stats; maxParty: number }) {
 function StatBlock({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-[5px]">
-      <div className="text-[11px] font-semibold tracking-[0.08em] text-[#888894] uppercase">
+      <div className="text-[11px] font-medium tracking-tight text-[#86868B]">
         {label}
       </div>
       {children}
