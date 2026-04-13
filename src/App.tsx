@@ -9,7 +9,7 @@ function App() {
   const { colorMode } = useAppContext();
 
   return (
-    <div className="min-h-screen flex flex-col max-w-[1100px] mx-auto">
+    <div className="min-h-screen flex flex-col max-w-[1120px] mx-auto">
       <Header />
       <ControlsBar />
       {colorMode === 'map' ? <USMap /> : <Treemap />}
