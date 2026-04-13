@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import type { ColorMode } from '../../data/types';
 
@@ -10,22 +11,51 @@ const modes: { value: ColorMode; label: string }[] = [
 
 export function ColorModeToggle() {
   const { colorMode, setColorMode } = useAppContext();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
+
+  useLayoutEffect(() => {
+    const idx = modes.findIndex((m) => m.value === colorMode);
+    const btn = btnRefs.current[idx];
+    const container = containerRef.current;
+    if (!btn || !container) return;
+    const cRect = container.getBoundingClientRect();
+    const bRect = btn.getBoundingClientRect();
+    setIndicator({ left: bRect.left - cRect.left, width: bRect.width });
+  }, [colorMode]);
 
   return (
-    <div className="flex flex-wrap gap-1">
-      {modes.map((m) => (
-        <button
-          key={m.value}
-          onClick={() => setColorMode(m.value)}
-          className={`px-2.5 py-1 text-[11px] font-medium rounded transition-all cursor-pointer whitespace-nowrap ${
-            colorMode === m.value
-              ? 'bg-white/8 text-[#e0e0e8] border border-white/20'
-              : 'bg-transparent text-[#888894] border border-white/10 hover:bg-white/4'
-          }`}
-        >
-          {m.label}
-        </button>
-      ))}
+    <div
+      ref={containerRef}
+      className="relative flex flex-wrap items-center gap-0.5 p-0.5 rounded-full bg-black/[.04]"
+    >
+      {indicator && (
+        <span
+          aria-hidden
+          className="absolute top-0.5 bottom-0.5 rounded-full bg-white shadow-[0_1px_2px_rgba(0,0,0,0.08)]"
+          style={{
+            left: indicator.left,
+            width: indicator.width,
+            transition: 'left 380ms cubic-bezier(0.32, 0.72, 0, 1), width 380ms cubic-bezier(0.32, 0.72, 0, 1)',
+          }}
+        />
+      )}
+      {modes.map((m, i) => {
+        const active = colorMode === m.value;
+        return (
+          <button
+            key={m.value}
+            ref={(el) => { btnRefs.current[i] = el; }}
+            onClick={() => setColorMode(m.value)}
+            className={`relative z-10 px-3 h-7 text-[11px] font-medium tracking-tight rounded-full cursor-pointer whitespace-nowrap transition-colors duration-200 ${
+              active ? 'text-[#1D1D1F]' : 'text-[#86868B] hover:text-[#1D1D1F]'
+            }`}
+          >
+            {m.label}
+          </button>
+        );
+      })}
     </div>
   );
 }
