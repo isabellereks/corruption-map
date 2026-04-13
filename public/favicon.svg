@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" stroke-linecap="round" stroke-linejoin="round" id="Map-X--Streamline-Tabler" height="24" width="24">
+  <desc>
+    Map X Streamline Icon: https://streamlinehq.com
+  </desc>
+  <path d="M14 19.5 9 17l-6 3V7l6 -3 6 3 6 -3v9" stroke-width="2"></path>
+  <path d="M9 4v13" stroke-width="2"></path>
+  <path d="M15 7v6.5" stroke-width="2"></path>
+  <path d="m22 22 -5 -5" stroke-width="2"></path>
+  <path d="m17 22 5 -5" stroke-width="2"></path>
+</svg>
