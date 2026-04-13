@@ -34,3 +34,4 @@ __pycache__/
 data/raw/
 data/processed/
 scripts/.progress.json
+data/
