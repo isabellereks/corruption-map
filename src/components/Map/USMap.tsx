@@ -102,17 +102,6 @@ function translateFeature(feature: any, dLon: number, dLat: number): any {
   return { ...feature, geometry: { ...geo, coordinates: newCoords } };
 }
 
-/** Blend a hex color toward white by `amount` (0–1) */
-function lightenColor(hex: string, amount: number): string {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  const lr = Math.round(r + (255 - r) * amount);
-  const lg = Math.round(g + (255 - g) * amount);
-  const lb = Math.round(b + (255 - b) * amount);
-  return `rgb(${lr},${lg},${lb})`;
-}
-
 export function USMap() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -198,15 +187,14 @@ export function USMap() {
   // Get state fill/opacity with hover brightness boost
   const getStateFill = useCallback((abbr: string | undefined, hoverProgress: number) => {
     const data = abbr ? stateData.get(abbr) : null;
-    let fill = '#1a1a2e';
-    let opacity = 0.3;
+    let fill = '#ECECEC';
+    let opacity = 0.9;
     if (data) {
       fill = partyColors[data.dominantParty];
-      opacity = 0.25 + (data.totalDonations / maxDonations) * 0.55;
+      opacity = 0.35 + (data.totalDonations / maxDonations) * 0.55;
     }
-    // Smooth hover: interpolate brightness and opacity
+    // Smooth hover: boost saturation/opacity on light bg
     if (hoverProgress > 0) {
-      fill = lightenColor(fill, hoverProgress * 0.2);
       opacity = Math.min(opacity + hoverProgress * 0.25, 1);
     }
     return { fill, opacity };
@@ -237,32 +225,32 @@ export function USMap() {
     const [cx, cy] = projection.translate();
 
     // 1. Clear background
-    ctx.fillStyle = '#0a0a12';
+    ctx.fillStyle = '#F2EDE2';
     ctx.fillRect(0, 0, dims.width, dims.height);
 
     // 2. Drop shadow under globe
     ctx.save();
-    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+    ctx.shadowColor = 'rgba(0,0,0,0.08)';
     ctx.shadowBlur = 40;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 8;
     ctx.beginPath();
     ctx.arc(cx, cy, globeRadius, 0, Math.PI * 2);
-    ctx.fillStyle = '#0d1525';
+    ctx.fillStyle = '#FBF8F1';
     ctx.fill();
     ctx.restore();
 
     // 3. Ocean sphere — distinct from background
     ctx.beginPath();
     path({ type: 'Sphere' } as any);
-    ctx.fillStyle = '#0d1525';
+    ctx.fillStyle = '#EDE6D5';
     ctx.fill();
 
     // 4. Graticule — more visible
     const graticule = d3.geoGraticule10();
     ctx.beginPath();
     path(graticule);
-    ctx.strokeStyle = 'rgba(255,255,255,0.10)';
+    ctx.strokeStyle = 'rgba(0,0,0,0.05)';
     ctx.lineWidth = 0.5;
     ctx.stroke();
 
@@ -285,7 +273,7 @@ export function USMap() {
     // 6. State borders — lighter for better differentiation
     ctx.beginPath();
     path(geoData.mesh);
-    ctx.strokeStyle = 'rgba(200,200,220,0.18)';
+    ctx.strokeStyle = 'rgba(0,0,0,0.18)';
     ctx.lineWidth = 0.75;
     ctx.stroke();
 
@@ -296,7 +284,7 @@ export function USMap() {
         if (abbr === currentHoveredState) {
           ctx.beginPath();
           path(feature);
-          ctx.strokeStyle = `rgba(255,255,255,${0.7 * hoverProgress})`;
+          ctx.strokeStyle = `rgba(29,29,31,${0.7 * hoverProgress})`;
           ctx.lineWidth = 2;
           ctx.stroke();
           break;
@@ -307,9 +295,9 @@ export function USMap() {
     // 8. Atmosphere glow — multi-layer for realism
     // Inner glow
     const glow1 = ctx.createRadialGradient(cx, cy, globeRadius * 0.97, cx, cy, globeRadius * 1.08);
-    glow1.addColorStop(0, 'rgba(80,140,255,0)');
-    glow1.addColorStop(0.4, 'rgba(80,140,255,0.12)');
-    glow1.addColorStop(1, 'rgba(80,140,255,0)');
+    glow1.addColorStop(0, 'rgba(0,0,0,0)');
+    glow1.addColorStop(0.4, 'rgba(0,0,0,0.04)');
+    glow1.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.beginPath();
     ctx.arc(cx, cy, globeRadius * 1.08, 0, Math.PI * 2);
     ctx.fillStyle = glow1;
@@ -317,10 +305,10 @@ export function USMap() {
 
     // Outer glow
     const glow2 = ctx.createRadialGradient(cx, cy, globeRadius * 1.0, cx, cy, globeRadius * 1.25);
-    glow2.addColorStop(0, 'rgba(60,120,255,0)');
-    glow2.addColorStop(0.3, 'rgba(60,120,255,0.06)');
-    glow2.addColorStop(0.7, 'rgba(60,120,255,0.03)');
-    glow2.addColorStop(1, 'rgba(60,120,255,0)');
+    glow2.addColorStop(0, 'rgba(0,0,0,0)');
+    glow2.addColorStop(0.3, 'rgba(0,0,0,0.03)');
+    glow2.addColorStop(0.7, 'rgba(0,0,0,0.015)');
+    glow2.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.beginPath();
     ctx.arc(cx, cy, globeRadius * 1.25, 0, Math.PI * 2);
     ctx.fillStyle = glow2;
@@ -329,8 +317,8 @@ export function USMap() {
     // Rim light along the globe edge
     ctx.beginPath();
     ctx.arc(cx, cy, globeRadius, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(100,160,255,0.15)';
-    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = 'rgba(0,0,0,0.10)';
+    ctx.lineWidth = 1;
     ctx.stroke();
   }, [geoData, dims, buildProjection, getStateFill]);
 
@@ -371,32 +359,32 @@ export function USMap() {
       const [cx, cy] = projection.translate();
 
       // Background
-      ctx.fillStyle = '#0a0a12';
+      ctx.fillStyle = '#F2EDE2';
       ctx.fillRect(0, 0, dims.width, dims.height);
 
       // Drop shadow
       ctx.save();
-      ctx.shadowColor = 'rgba(0,0,0,0.5)';
+      ctx.shadowColor = 'rgba(0,0,0,0.08)';
       ctx.shadowBlur = 40;
       ctx.shadowOffsetX = 0;
       ctx.shadowOffsetY = 8;
       ctx.beginPath();
       ctx.arc(cx, cy, globeRadius, 0, Math.PI * 2);
-      ctx.fillStyle = '#0d1525';
+      ctx.fillStyle = '#FBF8F1';
       ctx.fill();
       ctx.restore();
 
       // Ocean
       ctx.beginPath();
       path({ type: 'Sphere' } as any);
-      ctx.fillStyle = '#0d1525';
+      ctx.fillStyle = '#EDE6D5';
       ctx.fill();
 
       // Graticule
       const graticule = d3.geoGraticule10();
       ctx.beginPath();
       path(graticule);
-      ctx.strokeStyle = 'rgba(255,255,255,0.10)';
+      ctx.strokeStyle = 'rgba(0,0,0,0.05)';
       ctx.lineWidth = 0.5;
       ctx.stroke();
 
@@ -420,7 +408,7 @@ export function USMap() {
       // Borders
       ctx.beginPath();
       path(geoData.mesh);
-      ctx.strokeStyle = 'rgba(200,200,220,0.18)';
+      ctx.strokeStyle = 'rgba(0,0,0,0.18)';
       ctx.lineWidth = 0.75;
       ctx.stroke();
 
@@ -431,7 +419,7 @@ export function USMap() {
           if (fipsToState[feature.id] === abbr) {
             ctx.beginPath();
             path(feature);
-            ctx.strokeStyle = `rgba(255,255,255,${0.7 * alpha})`;
+            ctx.strokeStyle = `rgba(29,29,31,${0.7 * alpha})`;
             ctx.lineWidth = 2;
             ctx.stroke();
             break;
@@ -443,19 +431,19 @@ export function USMap() {
 
       // Atmosphere glow
       const glow1 = ctx.createRadialGradient(cx, cy, globeRadius * 0.97, cx, cy, globeRadius * 1.08);
-      glow1.addColorStop(0, 'rgba(80,140,255,0)');
-      glow1.addColorStop(0.4, 'rgba(80,140,255,0.12)');
-      glow1.addColorStop(1, 'rgba(80,140,255,0)');
+      glow1.addColorStop(0, 'rgba(0,0,0,0)');
+      glow1.addColorStop(0.4, 'rgba(0,0,0,0.04)');
+      glow1.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.beginPath();
       ctx.arc(cx, cy, globeRadius * 1.08, 0, Math.PI * 2);
       ctx.fillStyle = glow1;
       ctx.fill();
 
       const glow2 = ctx.createRadialGradient(cx, cy, globeRadius * 1.0, cx, cy, globeRadius * 1.25);
-      glow2.addColorStop(0, 'rgba(60,120,255,0)');
-      glow2.addColorStop(0.3, 'rgba(60,120,255,0.06)');
-      glow2.addColorStop(0.7, 'rgba(60,120,255,0.03)');
-      glow2.addColorStop(1, 'rgba(60,120,255,0)');
+      glow2.addColorStop(0, 'rgba(0,0,0,0)');
+      glow2.addColorStop(0.3, 'rgba(0,0,0,0.03)');
+      glow2.addColorStop(0.7, 'rgba(0,0,0,0.015)');
+      glow2.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.beginPath();
       ctx.arc(cx, cy, globeRadius * 1.25, 0, Math.PI * 2);
       ctx.fillStyle = glow2;
@@ -463,8 +451,8 @@ export function USMap() {
 
       ctx.beginPath();
       ctx.arc(cx, cy, globeRadius, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(100,160,255,0.15)';
-      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = 'rgba(0,0,0,0.10)';
+      ctx.lineWidth = 1;
       ctx.stroke();
 
       if (t < 1) {
@@ -561,8 +549,11 @@ export function USMap() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [nudgeRotation, nudgeZoom]);
 
+  const isMobile = dims.width < 640;
+
   // Hit detection
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (isMobile) return;
     if (!geoData) return;
     const canvas = canvasRef.current!;
     const rect = canvas.getBoundingClientRect();
@@ -588,7 +579,7 @@ export function USMap() {
     setHoveredState(found);
     canvas.style.cursor = found && stateData.has(found) ? 'pointer' : 'default';
     setMousePos({ x: e.clientX, y: e.clientY });
-  }, [geoData, dims, buildProjection, stateData]);
+  }, [geoData, dims, buildProjection, stateData, isMobile]);
 
   const handleClick = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!geoData) return;
@@ -606,7 +597,7 @@ export function USMap() {
         const abbr = fipsToState[feature.id];
         const data = abbr ? stateData.get(abbr) : null;
         if (abbr && data) {
-          if (data.politicians.length === 1) {
+          if (!isMobile && data.politicians.length === 1) {
             setSelectedPoliticianId(data.politicians[0].id);
           } else {
             setSelectedState(abbr);
@@ -615,7 +606,7 @@ export function USMap() {
         break;
       }
     }
-  }, [geoData, dims, buildProjection, stateData, setSelectedPoliticianId, setSelectedState]);
+  }, [geoData, dims, buildProjection, stateData, setSelectedPoliticianId, setSelectedState, isMobile]);
 
   // Small east coast states get labels offset to the right with leader lines
   const leaderLineStates: Record<string, { dx: number; dy: number }> = {
@@ -662,7 +653,7 @@ export function USMap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geoData, dims, buildProjection, stateData, rotationTick]);
 
-  if (!topoData) return <div className="px-6 pb-6 text-[#555]">Loading map...</div>;
+  if (!topoData) return <div className="px-6 pb-6 text-[#86868B]">Loading map...</div>;
 
   const hoveredData = hoveredState ? stateData.get(hoveredState) : null;
 
@@ -696,15 +687,15 @@ export function USMap() {
           {/* Text shadow filter for readability */}
           <defs>
             <filter id="label-shadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="#000" floodOpacity="0.8" />
+              <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="#FFFFFF" floodOpacity="0.9" />
             </filter>
           </defs>
           {labelPositions.map(({ abbr, x, y, ox, oy, hasLeader }) => (
             <g key={abbr}>
               {hasLeader && (
                 <>
-                  <line x1={x} y1={y} x2={ox} y2={oy} stroke="rgba(255,255,255,0.25)" strokeWidth={0.75} />
-                  <circle cx={x} cy={y} r={2} fill="rgba(255,255,255,0.4)" />
+                  <line x1={x} y1={y} x2={ox} y2={oy} stroke="rgba(0,0,0,0.25)" strokeWidth={0.75} />
+                  <circle cx={x} cy={y} r={2} fill="rgba(0,0,0,0.4)" />
                 </>
               )}
               <text
@@ -715,7 +706,7 @@ export function USMap() {
                 dominantBaseline="central"
                 fontSize={dims.width > 800 ? 10 : 8}
                 fontWeight={600}
-                fill="#e0e0e8"
+                fill="#1D1D1F"
                 filter="url(#label-shadow)"
                 style={{ pointerEvents: 'none' }}
               >
@@ -734,11 +725,13 @@ export function USMap() {
             display: 'flex',
             alignItems: 'center',
             gap: 2,
-            background: 'rgba(255,255,255,0.12)',
-            backdropFilter: 'blur(12px)',
+            background: 'rgba(255,255,255,0.85)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
             borderRadius: 999,
             padding: '4px 6px',
-            border: '1px solid rgba(255,255,255,0.15)',
+            border: '1px solid rgba(0,0,0,0.06)',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.06)',
           }}
         >
           <NavButton label="−" onClick={() => nudgeZoom(-ZOOM_STEP)} />
@@ -750,8 +743,8 @@ export function USMap() {
         </div>
       </div>
 
-      {/* Tooltip */}
-      {hoveredState && hoveredData && (
+      {/* Tooltip — hidden on mobile, tap opens sidebar instead */}
+      {!isMobile && hoveredState && hoveredData && (
         <MapTooltip
           x={mousePos.x}
           y={mousePos.y}
@@ -802,54 +795,55 @@ function MapTooltip({ x, y, state, data }: {
         top,
         width: w,
         maxHeight: window.innerHeight - 16,
-        background: 'linear-gradient(135deg, rgba(18,18,28,0.97), rgba(12,12,22,0.97))',
-        border: '1px solid rgba(255,255,255,0.08)',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)',
-        backdropFilter: 'blur(12px)',
+        background: 'rgba(255,255,255,0.95)',
+        border: '1px solid rgba(0,0,0,0.06)',
+        boxShadow: '0 12px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.04)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
       }}
     >
-      <div className="text-sm font-semibold text-white mb-1">
+      <div className="text-sm font-semibold text-[#1D1D1F] mb-1">
         {stateNames[state] ?? state}
       </div>
-      <div className="text-xs text-[#888894] mb-2">
+      <div className="text-xs text-[#86868B] mb-2">
         {data.politicians.length} politician{data.politicians.length !== 1 ? 's' : ''} tracked · {formatDollars(data.totalDonations)} total donations
       </div>
 
       {senators.length > 0 && (
         <div className="mb-2">
-          <div className="text-[10px] text-[#555] uppercase tracking-wide mb-1">Senators</div>
+          <div className="text-[11px] text-[#86868B] tracking-tight font-medium mb-1">Senators</div>
           {senators.map((p) => (
             <div key={p.id} className="flex items-center gap-2 text-xs mb-0.5">
               <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: partyColors[p.party] }} />
-              <span className="text-[#e0e0e8] truncate">{p.name}</span>
-              <span className="text-[#888894] tabular-nums shrink-0 ml-auto">{formatDollars(p.donations.reduce((s, d) => s + d.amount, 0))}</span>
+              <span className="text-[#1D1D1F] truncate">{p.name}</span>
+              <span className="text-[#86868B] tabular-nums shrink-0 ml-auto">{formatDollars(p.donations.reduce((s, d) => s + d.amount, 0))}</span>
             </div>
           ))}
-          {hiddenSenators > 0 && <div className="text-[10px] text-[#555] mt-0.5">+{hiddenSenators} more</div>}
+          {hiddenSenators > 0 && <div className="text-[10px] text-[#B5B5BA] mt-0.5">+{hiddenSenators} more</div>}
         </div>
       )}
 
       {reps.length > 0 && (
         <div className="mb-2">
-          <div className="text-[10px] text-[#555] uppercase tracking-wide mb-1">Representatives</div>
+          <div className="text-[11px] text-[#86868B] tracking-tight font-medium mb-1">Representatives</div>
           {reps.map((p) => (
             <div key={p.id} className="flex items-center gap-2 text-xs mb-0.5">
               <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: partyColors[p.party] }} />
-              <span className="text-[#e0e0e8] truncate">{p.name}</span>
-              <span className="text-[#888894] tabular-nums shrink-0 ml-auto">{formatDollars(p.donations.reduce((s, d) => s + d.amount, 0))}</span>
+              <span className="text-[#1D1D1F] truncate">{p.name}</span>
+              <span className="text-[#86868B] tabular-nums shrink-0 ml-auto">{formatDollars(p.donations.reduce((s, d) => s + d.amount, 0))}</span>
             </div>
           ))}
-          {hiddenReps > 0 && <div className="text-[10px] text-[#555] mt-0.5">+{hiddenReps} more — click to see all</div>}
+          {hiddenReps > 0 && <div className="text-[10px] text-[#B5B5BA] mt-0.5">+{hiddenReps} more — click to see all</div>}
         </div>
       )}
 
       {data.topIndustries.length > 0 && (
         <div>
-          <div className="text-[10px] text-[#555] uppercase tracking-wide mb-1">Top Industries</div>
+          <div className="text-[11px] text-[#86868B] tracking-tight font-medium mb-1">Top Industries</div>
           {data.topIndustries.map((ind) => (
             <div key={ind.name} className="flex items-center justify-between text-xs mb-0.5">
-              <span className="text-[#888894]">{ind.name}</span>
-              <span className="text-[#e0e0e8] tabular-nums">{formatDollars(ind.total)}</span>
+              <span className="text-[#86868B]">{ind.name}</span>
+              <span className="text-[#1D1D1F] tabular-nums">{formatDollars(ind.total)}</span>
             </div>
           ))}
         </div>
@@ -868,7 +862,7 @@ function NavButton({ label, onClick }: { label: string; onClick: () => void }) {
         borderRadius: 999,
         border: 'none',
         background: 'transparent',
-        color: 'rgba(255,255,255,0.85)',
+        color: 'rgba(29,29,31,0.85)',
         fontSize: 14,
         fontWeight: 600,
         cursor: 'pointer',
@@ -877,7 +871,7 @@ function NavButton({ label, onClick }: { label: string; onClick: () => void }) {
         justifyContent: 'center',
         transition: 'background 150ms',
       }}
-      onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.15)'; }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.06)'; }}
       onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
     >
       {label}
