@@ -68,17 +68,17 @@ function PoliticianPanel({ politician, onClose }: { politician: (typeof politici
               className="w-3 h-3 rounded-full"
               style={{ backgroundColor: partyColors[politician.party] }}
             />
-            <h2 className="text-lg font-semibold text-[#e0e0e8] m-0">{politician.name}</h2>
+            <h2 className="text-lg font-semibold text-[#1D1D1F] m-0">{politician.name}</h2>
           </div>
-          <div className="text-sm text-[#888894]">
+          <div className="text-sm text-[#86868B]">
             {partyLabel} · {politician.state} · {politician.chamber}{politician.yearsInOffice > 0 ? ` · ${politician.yearsInOffice} years` : ''}
           </div>
-          <div className="text-sm text-[#888894] mt-1">
+          <div className="text-sm text-[#86868B] mt-1">
             Received: <span className="text-[#D94A4A] font-semibold">{formatDollars(totalDonations)}</span> from PACs
           </div>
           {topDonor && (
-            <div className="text-sm text-[#888894] mt-1">
-              Top donor: <span className="text-[#e0e0e8] font-bold uppercase">{topDonor}</span>
+            <div className="text-sm text-[#86868B] mt-1">
+              Top donor: <span className="text-[#1D1D1F] font-medium">{topDonor}</span>
             </div>
           )}
         </div>
@@ -89,19 +89,19 @@ function PoliticianPanel({ politician, onClose }: { politician: (typeof politici
       <VoteAlignment politician={politician} />
 
       <div className="mt-4">
-        <div className="text-[10px] font-semibold tracking-[0.08em] text-[#888894] uppercase mb-2">
+        <div className="text-[11px] font-medium tracking-tight text-[#86868B] mb-2">
           Who's Paying
         </div>
         {sortedDonations.map((d, i) => {
             const industry = industryMap.get(d.industryId);
             const pct = (d.amount / totalDonations) * 100;
             return (
-              <div key={i} className="mb-1.5 rounded-lg bg-white/3 px-3 py-2.5">
+              <div key={i} className="mb-1.5 rounded-lg bg-black/[.03] px-3 py-2.5">
                 <div className="flex justify-between text-xs mb-0.5">
-                  <span className="text-[#bbb]">{industry?.name ?? d.industryId}</span>
-                  <span className="text-[#e0e0e8] font-semibold tabular-nums">{formatDollars(d.amount)}</span>
+                  <span className="text-[#1D1D1F]">{industry?.name ?? d.industryId}</span>
+                  <span className="text-[#1D1D1F] font-semibold tabular-nums">{formatDollars(d.amount)}</span>
                 </div>
-                <div className="h-2 bg-[#1a1a2e] rounded-full overflow-hidden">
+                <div className="h-2 bg-black/[.06] rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full"
                     style={{
@@ -110,7 +110,7 @@ function PoliticianPanel({ politician, onClose }: { politician: (typeof politici
                     }}
                   />
                 </div>
-                <div className="text-[10px] text-[#666] mt-0.5">
+                <div className="text-[10px] text-[#A8A8AD] mt-0.5">
                   via {d.topDonor}
                 </div>
               </div>
@@ -142,9 +142,9 @@ function IndustryPanel({ industryId, onClose, onSelect }: { industryId: string; 
         <div>
           <div className="flex items-center gap-2 mb-1">
             <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: industry?.color ?? '#555' }} />
-            <h2 className="text-lg font-semibold text-[#e0e0e8] m-0">{industry?.name ?? industryId}</h2>
+            <h2 className="text-lg font-semibold text-[#1D1D1F] m-0">{industry?.name ?? industryId}</h2>
           </div>
-          <div className="text-sm text-[#888894]">
+          <div className="text-sm text-[#86868B]">
             {industryPols.length} politicians · {formatDollars(totalAmount)} total
           </div>
         </div>
@@ -155,15 +155,15 @@ function IndustryPanel({ industryId, onClose, onSelect }: { industryId: string; 
         <button
           key={p.id}
           onClick={() => onSelect(p.id)}
-          className="w-full text-left px-3 py-2.5 rounded-lg mb-1 bg-white/3 hover:bg-white/8 cursor-pointer border-none transition-colors block"
+          className="w-full text-left px-3 py-2.5 rounded-lg mb-1 bg-black/[.03] hover:bg-black/[.06] cursor-pointer border-none transition-colors block"
         >
           <div className="flex items-center gap-2 mb-0.5">
             <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: partyColors[p.party] }} />
-            <span className="text-sm font-medium text-[#e0e0e8]">{p.name}</span>
-            <span className="text-[10px] text-[#555]">{p.party}-{p.state}</span>
+            <span className="text-sm font-medium text-[#1D1D1F]">{p.name}</span>
+            <span className="text-[10px] text-[#B5B5BA]">{p.party}-{p.state}</span>
             <span className="text-sm font-semibold tabular-nums ml-auto" style={{ color: industry?.color ?? '#888' }}>{formatDollars(amount)}</span>
           </div>
-          <div className="text-[10px] text-[#555] pl-4 truncate">via {topDonor}</div>
+          <div className="text-[10px] text-[#B5B5BA] pl-4 truncate">via {topDonor}</div>
         </button>
       ))}
     </SidePanel>
@@ -187,8 +187,8 @@ function StatePanel({ state, onClose, onSelect }: { state: string; onClose: () =
     <SidePanel>
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h2 className="text-lg font-semibold text-[#e0e0e8] m-0">{stateNames[state] ?? state}</h2>
-          <div className="text-sm text-[#888894]">
+          <h2 className="text-lg font-semibold text-[#1D1D1F] m-0">{stateNames[state] ?? state}</h2>
+          <div className="text-sm text-[#86868B]">
             {statePols.length} politician{statePols.length !== 1 ? 's' : ''} · {formatDollars(totalDonations)} total PAC donations
           </div>
         </div>
@@ -197,7 +197,7 @@ function StatePanel({ state, onClose, onSelect }: { state: string; onClose: () =
 
       {senators.length > 0 && (
         <div className="mb-4">
-          <div className="text-[10px] text-[#555] uppercase tracking-wide font-semibold mb-2">
+          <div className="text-[11px] text-[#86868B] tracking-tight font-medium mb-2">
             Senators ({senators.length})
           </div>
           {senators.map((p) => (
@@ -208,7 +208,7 @@ function StatePanel({ state, onClose, onSelect }: { state: string; onClose: () =
 
       {reps.length > 0 && (
         <div>
-          <div className="text-[10px] text-[#555] uppercase tracking-wide font-semibold mb-2">
+          <div className="text-[11px] text-[#86868B] tracking-tight font-medium mb-2">
             Representatives ({reps.length})
           </div>
           {reps.map((p) => (
@@ -228,22 +228,22 @@ function PoliticianRow({ politician, onClick }: { politician: (typeof politician
   return (
     <button
       onClick={onClick}
-      className="w-full text-left px-3 py-2.5 rounded-lg mb-1 bg-white/3 hover:bg-white/8 cursor-pointer border-none transition-colors block"
+      className="w-full text-left px-3 py-2.5 rounded-lg mb-1 bg-black/[.03] hover:bg-black/[.06] cursor-pointer border-none transition-colors block"
     >
       <div className="flex items-center gap-2 mb-1">
         <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: partyColors[politician.party] }} />
-        <span className="text-sm font-medium text-[#e0e0e8]">{politician.name}</span>
+        <span className="text-sm font-medium text-[#1D1D1F]">{politician.name}</span>
         <span className="text-sm font-semibold text-[#D94A4A] ml-auto tabular-nums">{formatDollars(total)}</span>
       </div>
       <div className="flex items-center gap-2 pl-4">
         {topIndustry && (
-          <div className="flex items-center gap-1 text-[10px] text-[#888894]">
+          <div className="flex items-center gap-1 text-[10px] text-[#86868B]">
             <div className="w-1.5 h-1.5 rounded-sm" style={{ backgroundColor: topIndustry.color }} />
             {topIndustry.name}
           </div>
         )}
         {topDonation && (
-          <span className="text-[10px] text-[#555] truncate">via {topDonation.topDonor}</span>
+          <span className="text-[10px] text-[#B5B5BA] truncate">via {topDonation.topDonor}</span>
         )}
       </div>
     </button>
@@ -253,7 +253,7 @@ function PoliticianRow({ politician, onClick }: { politician: (typeof politician
 function SidePanel({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="fixed top-0 right-0 h-full w-[420px] max-w-full bg-[#12121a] border-l border-white/10 z-40 overflow-y-auto"
+      className="fixed top-0 right-0 h-full w-[420px] max-w-full bg-[#F2EDE2] border-l border-black/[.06] z-40 overflow-y-auto shadow-[-8px_0_32px_rgba(0,0,0,0.04)]"
       style={{ animation: 'slideIn 300ms ease-out' }}
     >
       <style>{`
@@ -271,7 +271,7 @@ function CloseButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="text-[#888894] hover:text-[#e0e0e8] text-xl cursor-pointer bg-transparent border-none p-1"
+      className="text-[#86868B] hover:text-[#1D1D1F] text-xl cursor-pointer bg-transparent border-none p-1"
     >
       ×
     </button>

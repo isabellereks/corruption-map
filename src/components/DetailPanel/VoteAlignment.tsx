@@ -16,11 +16,11 @@ export function VoteAlignment({ politician }: Props) {
 
   return (
     <div className="mb-4">
-      <div className="flex justify-between text-xs text-[#888894] mb-1.5">
+      <div className="flex justify-between text-xs text-[#86868B] mb-1.5">
         <span>Donor Vote Alignment</span>
         <span style={{ color }} className="font-medium">{score}%</span>
       </div>
-      <div className="h-3 bg-[#1a1a2e] rounded-full overflow-hidden">
+      <div className="h-3 bg-black/[.06] rounded-full overflow-hidden">
         <div
           className="h-full rounded-full transition-all"
           style={{ width: `${score}%`, backgroundColor: color }}
@@ -28,13 +28,13 @@ export function VoteAlignment({ politician }: Props) {
       </div>
       {politician.suspiciousVotes.length > 0 && (
         <div className="mt-3">
-          <div className="text-[10px] font-semibold tracking-[0.08em] text-[#888894] uppercase mb-2">
+          <div className="text-[11px] font-medium tracking-tight text-[#86868B] mb-2">
             Suspicious Votes
           </div>
           {politician.suspiciousVotes.slice(0, 5).map((v, i) => (
-            <div key={i} className="text-xs mb-1.5 pl-3 py-2.5 pr-3 rounded-lg bg-white/3 border-l-2 border-[#333]">
+            <div key={i} className="text-xs mb-1.5 pl-3 py-2.5 pr-3 rounded-lg bg-black/[.03] border-l-2 border-black/[.08]">
               <div className="flex items-center gap-1.5">
-                <span className="text-[#e0e0e8] font-mono">{v.bill}</span>
+                <span className="text-[#1D1D1F] font-mono">{v.bill}</span>
                 {v.howTheyVoted && (
                   <span
                     className="px-1 py-0.5 rounded text-[9px] font-bold leading-none"
@@ -47,14 +47,14 @@ export function VoteAlignment({ politician }: Props) {
                   </span>
                 )}
                 {industryMap.get(v.industryId)?.name && (
-                  <span className="text-[#666]">
+                  <span className="text-[#A8A8AD]">
                     ({industryMap.get(v.industryId)!.name})
                   </span>
                 )}
               </div>
-              <div className="text-[#888894] mt-0.5">{v.description}</div>
+              <div className="text-[#86868B] mt-0.5">{v.description}</div>
               {v.reason && (
-                <div className="text-[#666] mt-0.5 italic">{v.reason}</div>
+                <div className="text-[#A8A8AD] mt-0.5 italic">{v.reason}</div>
               )}
             </div>
           ))}

@@ -19,13 +19,13 @@ export function NetWorthBar({ politician }: Props) {
 
   return (
     <div className="mb-4">
-      <div className="flex justify-between text-xs text-[#888894] mb-1.5">
+      <div className="flex justify-between text-xs text-[#86868B] mb-1.5">
         <span>Net Worth Growth</span>
         {isSuspicious && (
           <span className="text-red-400 font-medium">Exceeds salary income</span>
         )}
       </div>
-      <div className="h-6 bg-[#1a1a2e] rounded overflow-hidden flex">
+      <div className="h-6 bg-black/[.06] rounded overflow-hidden flex">
         <div
           className="h-full bg-[#4682B4] transition-all"
           style={{ width: `${ratio * 100}%` }}
@@ -39,8 +39,8 @@ export function NetWorthBar({ politician }: Props) {
         />
       </div>
       <div className="flex justify-between text-xs mt-1">
-        <span className="text-[#888894]">{formatDollars(netWorthStart)}</span>
-        <span className="text-[#e0e0e8] font-medium">{formatDollars(netWorthCurrent)}</span>
+        <span className="text-[#86868B]">{formatDollars(netWorthStart)}</span>
+        <span className="text-[#1D1D1F] font-medium">{formatDollars(netWorthCurrent)}</span>
       </div>
     </div>
   );
